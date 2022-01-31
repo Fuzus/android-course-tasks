@@ -12,6 +12,7 @@ public class TaskConstants {
         public static final String TOKEN_KEY = "token";
         public static final String PERSON_KEY = "personkey";
         public static final String PERSON_NAME = "personname";
+        public static final String PERSON_EMAIL = "personemail";
     }
 
     public static class HTTP {
@@ -20,9 +21,10 @@ public class TaskConstants {
     }
 
     public static class FILTER {
+        public static final String KEY = "TASKFILTER";
         public static final int NO_FILTER = 0;
-        public static final int OVERDUE = 1;
-        public static final int NEXT_7_DAYS = 2;
+        public static final int NEXT_7_DAYS = 1;
+        public static final int OVERDUE = 2;
     }
 
     public static class BUNDLE {

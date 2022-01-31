@@ -5,6 +5,8 @@
     <color name="colorAccent">#f33769</color>
     <color name="colorDefaultBackground">#f6f6f6</color>
     <color name="colorGrayText">#c1c1c1</color>
+    <color name="colorButtonText">#8F8D8D</color>
     <color name="colorDescriptionTask">#535353</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

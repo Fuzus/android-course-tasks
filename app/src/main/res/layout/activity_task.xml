@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,12 +10,12 @@
     <EditText
         android:id="@+id/edit_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:hint="@string/descricao" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorGrayText" />
+        style="@style/viewDivisor"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,9 +28,7 @@
         android:layout_height="wrap_content" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorGrayText" />
+        style="@style/viewDivisor" />
 
     <CheckBox
         android:id="@+id/check_complete"
@@ -40,26 +37,26 @@
         android:text="@string/completa" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorGrayText" />
+        style="@style/viewDivisor"/>
 
     <Button
         android:id="@+id/button_date"
         android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorButtonText"
+        android:textAllCaps="false"
         android:text="@string/clique_para_selecionar_a_data" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorGrayText" />
+        style="@style/viewDivisor" />
 
     <Button
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_marginTop="32dp"
         android:text="@string/adicionar_tarefa" />
 
