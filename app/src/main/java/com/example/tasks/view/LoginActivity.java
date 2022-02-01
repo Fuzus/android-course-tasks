@@ -1,6 +1,9 @@
 package com.example.tasks.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import com.example.tasks.R;
 import com.example.tasks.service.listener.FeedBack;
 import com.example.tasks.viewmodel.LoginViewModel;
+
+import java.util.concurrent.Executor;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Cria observadores
         this.loadObservers();
 
-        this.verifyUserLogged();
+        this._loginViewModel.checkFingerPrintRequirement();
     }
 
     @Override
@@ -53,10 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (id == R.id.text_register) {
             startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
         }
-    }
-
-    private void verifyUserLogged(){
-        this._loginViewModel.verifyUserLogged();
     }
 
     private void setListeners(){
@@ -84,6 +85,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+        this._loginViewModel.fingerPrintRequired.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isRequired) {
+                if (isRequired){
+                    openAuthentication();
+                }
+            }
+        });
     }
 
     private void startMain(){
@@ -92,6 +101,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
     }
 
+    private void openAuthentication() {
+        //executor
+        Executor executor = ContextCompat.getMainExecutor(this);
+
+        //biometric prompt
+        BiometricPrompt biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                startMain();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        //biometric info
+        BiometricPrompt.PromptInfo info = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Tasks")
+                .setNegativeButtonText("Cancel")
+                .build();
+
+        biometricPrompt.authenticate(info);
+    }
 
     /**
      * ViewHolder

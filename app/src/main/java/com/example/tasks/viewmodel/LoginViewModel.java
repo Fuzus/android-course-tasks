@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.tasks.service.helper.FingerprintHelper;
 import com.example.tasks.service.listener.APIListener;
 import com.example.tasks.service.listener.FeedBack;
 import com.example.tasks.service.model.PersonModel;
@@ -26,6 +27,9 @@ public class LoginViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Boolean> _userLogged = new MutableLiveData<>();
     public final LiveData<Boolean> userLogged = this._userLogged;
+
+    private final MutableLiveData<Boolean> _fingerPrintRequired = new MutableLiveData<>();
+    public final LiveData<Boolean> fingerPrintRequired = this._fingerPrintRequired;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -54,7 +58,7 @@ public class LoginViewModel extends AndroidViewModel {
     }
 
 
-    public void verifyUserLogged() {
+    private boolean verifyUserLogged() {
         PersonModel person = this._personRepository.getUserData();
         boolean logged = !person.getName().equals("");
 
@@ -75,6 +79,16 @@ public class LoginViewModel extends AndroidViewModel {
             });
         }
 
-        this._userLogged.setValue(logged);
+        return logged;
+    }
+
+    public void checkFingerPrintRequirement() {
+        if (this.verifyUserLogged()) {
+            if (FingerprintHelper.isAvailable(getApplication())) {
+                this._fingerPrintRequired.setValue(true);
+            } else {
+                this._userLogged.setValue(true);
+            }
+        }
     }
 }
